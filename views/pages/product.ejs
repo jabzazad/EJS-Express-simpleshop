@@ -1,0 +1,31 @@
+<% include ../partials/head %>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Price</th>
+            <th><button type="button" class="btn btn-success" onclick="Add()">Add New</button></th>
+        </tr>
+    </thead>
+    <tbody>
+    <% products.forEach(function(product) { %>
+        <tr>
+            <td scope="row"><%= product.id %></td>
+            <td><%= product.title %></td>
+            <td><%= product.price %></td>
+            <td><button class="btn btn-primary" onclick='Edit("<%= product.id %>","<%= product.title %>","<%=product.price %>")'>Edit</button></td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+<script>
+function Add(){
+    alert("Add New Infomation");
+    var id = prompt("Add id:",""); 
+    var name=prompt("Add Name Product","");
+    var price=prompt("Add Price","");
+    
+}
+</script>
+<% include ../partials/footer %>
