@@ -14,13 +14,80 @@ app.get('/product', function(req, res) {
     db.any(sql)
         .then(function (data) 
         {
-            console.log('DATA' + data);
+            // console.log('DATA' + data);
             res.render('pages/product', { products: data });
         })
         .catch(function (data) 
         {
             console.log('ERROR' + error);
         })
+});
+app.get('/product/:pid', function(req, res)
+{
+    var pid = req.params.pid;
+    var sql = 'select * from products where id =' + pid;
+
+    db.any(sql)
+        .then(function (data)
+        {
+            res.render('pages/product_edit', { product: data[0] });
+        })
+        .catch(function (error) 
+        {
+            console.log('ERROR' + error);
+        })
+});
+app.post('/product/update', function(req, res)
+{
+    var id = req.body.id;
+    var title = req.body.title;
+    var price = req.body.price;
+    var date=req.body.date;
+    var sql = `update products set title = '${title}', price = ${price},created_at='${date}' where id = ${id}`;
+    db.query(sql)
+        .then(function(data)
+        {
+            res.redirect('/product');
+        })
+        .catch(function(data)
+        {
+            console.log('ERROR' + error);
+        })
+});
+app.post('/product/insert',function(req,res){
+    var id=req.body.id;
+var name=req.body.name;
+var price=req.body.price;
+    if(id!=""&&name!=""&&price!=""){
+var sql = `INSERT INTO products (id, title, price)
+VALUES (${id}, '${name}', ${price})`;
+console.log(sql);
+    db.query(sql)
+        .then(function(data)
+        {
+            res.redirect('/product');
+        })
+        .catch(function(data)
+        {
+            console.log('ERROR' + error);
+        })
+    }else{
+        res.redirect('/product');
+    }
+});
+app.post('/delete', function(req, res) {
+    var id_delete=req.body.id_delete;
+    var sql=`DELETE FROM products
+    WHERE id=${id_delete};`
+    db.query(sql)
+    .then(function(data)
+    {
+        res.redirect('/product');
+    })
+    .catch(function(data)
+    {
+        console.log('ERROR' + error);
+    })
 });
 app.get('/buyer', function(req, res) {
     res.render('pages/buyer');

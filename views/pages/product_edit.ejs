@@ -1,29 +1,109 @@
-<% include ../partials/header %>
+<% include ../partials/head%>
 
-<form action="/products/update" method="post">
+<form action="/product/update" method="post">
+<div class="row">
+<div class='col-sm-10 mx-auto'>
     <div class="form-group">
     <label for="">Product ID</label>
     <input type="number"
         class="form-control" value="<%= product.id %>" name="id" aria-describedby="helpId">
     <small id="helpId" class="form-text text-muted">Product ID</small>
     </div>
+    </div>
+    </div>
 
+    <div class="row">
+    <div class='col-sm-10 mx-auto'>
     <div class="form-group">
     <label for="">Title</label>
     <input type="text"
         class="form-control" value="<%= product.title %>" name="title" aria-describedby="helpId">
     <small id="helpId" class="form-text text-muted">Product name</small>
     </div>
+    </div>
+    </div>
 
+    <div class="row">
+    <div class='col-sm-10 mx-auto'>
     <div class="form-group">
     <label for="">Price</label>
     <input type="number"
         class="form-control" value="<%= product.price %>" name="price" aria-describedby="helpId" placeholder="">
     </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class='col-sm-10 mx-auto'>
+        <div class="form-group">
+        <label for="">Create At</label>
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' class="form-control" id='timepicker-actions-exmpl' name="date" value="<%= product.created_at %> " />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Create start date
+    var start = new Date(),
+        prevDay,
+        startHours = 9;
+
+    // 09:00 AM
+    start.setHours(9);
+    start.setMinutes(0);
+
+    // If today is Saturday or Sunday set 10:00 AM
+    if ([6, 0].indexOf(start.getDay()) != -1) {
+        start.setHours(10);
+        startHours = 10
+    }
+
+    $('#timepicker-actions-exmpl').datepicker({
+        timepicker: true,
+        language: 'en',
+        startDate: start,
+        minHours: startHours,
+        maxHours: 18,
+        onSelect: function (fd, d, picker) {
+            // Do nothing if selection was cleared
+            if (!d) return;
+
+            var day = d.getDay();
+
+            // Trigger only if date is changed
+            if (prevDay != undefined && prevDay == day) return;
+            prevDay = day;
+
+            // If chosen day is Saturday or Sunday when set
+            // hour value for weekends, else restore defaults
+            if (day == 6 || day == 0) {
+                picker.update({
+                    minHours: 10,
+                    maxHours: 16
+                })
+            } else {
+                picker.update({
+                    minHours: 9,
+                    maxHours: 18
+                })
+            }
+        }
+    })
+</script>
+  </div>
 
     <div class="text-center">
-        <a name="" id="" class="btn btn-success" href="#" role="button">Save</a>
-        <a name="" id="" class="btn btn-warning" href="/products" role="button">Cancel</a>
-        <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
+    <button type="submit" class="btn btn-success">Save</button>
+        <a name="" id="" class="btn btn-warning" href="/product" role="button">Cancel</a>
+        </form>
+        </div>
+        <div class="text-center">
+        <form action="/delete" method="post">
+        <input type="hidden" name="id_delete" value="<%= product.id %>" />
+       <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
     </div>
+
 <% include ../partials/footer %>

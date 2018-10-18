@@ -5,7 +5,14 @@
             <th>ID</th>
             <th>Email</th>
             <th>Price</th>
-            <th><button type="button" class="btn btn-success" onclick="Add()">Add New</button></th>
+            <th>
+            <form action="/product/insert" method="post">
+            <button type="submit" class="btn btn-success" onclick="Add()">Add New</button>
+            <input type="hidden" id="MysecretID" name="id" value="" />
+            <input type="hidden" id="MysecretName" name="name" value="" />
+            <input type="hidden" id="MysecretPrice" name="price" value="" />
+            </form>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +21,7 @@
             <td scope="row"><%= product.id %></td>
             <td><%= product.title %></td>
             <td><%= product.price %></td>
-            <td><button class="btn btn-primary" onclick='Edit("<%= product.id %>","<%= product.title %>","<%=product.price %>")'>Edit</button></td>
+            <td><a class="btn btn-primary" href="/product/<%= product.id %>" role="button">Edit</a></td>
             </tr>
         <% }); %>
     </tbody>
@@ -25,7 +32,9 @@ function Add(){
     var id = prompt("Add id:",""); 
     var name=prompt("Add Name Product","");
     var price=prompt("Add Price","");
-    
+        document.getElementById('MysecretID').value = id;
+        document.getElementById('MysecretName').value = name;
+        document.getElementById('MysecretPrice').value =price;
 }
 </script>
 <% include ../partials/footer %>
