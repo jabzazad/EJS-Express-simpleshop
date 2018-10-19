@@ -39,6 +39,7 @@ app.get('/product/:pid', function(req, res)
 });
 app.post('/product/update', function(req, res)
 {
+    var cid=req.body.cid;
     var id = req.body.id;
     if(id!=""){
     var title = req.body.title;
@@ -53,8 +54,12 @@ app.post('/product/update', function(req, res)
     if(date!=""){block3=` created_at='${date}'`;
     block3=block3.replace('GMT+0700 (GMT+07:00)','')
 }  
-    var lsql=` where product_id = ${id}`;
+    var lsql=` where product_id = ${cid}`;
+if(cid==id){
     var sql=fsql+block1+","+block2+","+block3+lsql;
+}else{
+    var sql=fsql+` product_id=${id},`+block1+","+block2+","+block3+lsql;
+}
     db.query(sql)
         .then(function(data)
         {
