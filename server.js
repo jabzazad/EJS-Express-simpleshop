@@ -93,6 +93,17 @@ app.get('/buyer', function(req, res) {
     res.render('pages/buyer');
 });
 app.get('/sold', function(req, res) {
-    res.render('pages/sold');
+    var sql ='select products.product_id,products.title,sum(purchase_items.quantity) as quantity,sum(purchase_items.price) as price from products inner join purchase_items on purchase_items.product_id=products.product_id group by products.product_id;select sum(quantity) as squantity,sum(price) as sprice from purchase_items';
+    db.multi(sql)
+    .then(function  (data) 
+    {
+ 
+        // console.log('DATA' + data);
+        res.render('pages/sold', {sold: data[0],sum: data[1]});
+    })
+    .catch(function (data) 
+    {
+        console.log('ERROR' + error);
+    })
 });
 app.listen(3000);
