@@ -1,0 +1,23 @@
+<% include ../partials/head %>
+<h1 class="text-center">Top 25 Customers by Sales<h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Customers ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Total Sales</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% buyer.forEach(function(buyer) { %>
+        <tr>
+            <td scope="row"><%= buyer.user_id %></td>
+            <td><%= buyer.name %></td>
+            <td><%= buyer.email %></td>
+            <td><%= buyer.price %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% include ../partials/footer %>

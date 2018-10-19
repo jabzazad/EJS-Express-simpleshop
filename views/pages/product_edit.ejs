@@ -6,7 +6,7 @@
     <div class="form-group">
     <label for="">Product ID</label>
     <input type="number"
-        class="form-control" value="<%= product.id %>" name="id" aria-describedby="helpId">
+        class="form-control" value="<%= product.product_id %>" name="id" aria-describedby="helpId">
     <small id="helpId" class="form-text text-muted">Product ID</small>
     </div>
     </div>
@@ -101,7 +101,7 @@
         </div>
         <div class="text-center">
         <form action="/delete" method="post">
-        <input type="hidden" name="id_delete" value="<%= product.id %>" />
+        <input type="hidden" name="id_delete" value="<%= product.product_id %>" />
        <button type="submit" class="btn btn-danger">Remove</button>
         </form>
     </div>
