@@ -40,10 +40,21 @@ app.get('/product/:pid', function(req, res)
 app.post('/product/update', function(req, res)
 {
     var id = req.body.id;
+    if(id!=""){
     var title = req.body.title;
     var price = req.body.price;
     var date=req.body.date;
-    var sql = `update products set title = '${title}', price = ${price},created_at='${date}' where product_id = ${id}`;
+    var block1="";
+    var block2="";
+    var block3="";
+    var fsql=`update products set`;
+    if(title!=""){block1=` title='${title}'`;}else{block1=" title=''";}
+    if(price!=""){block2=` price='${price}'`;}else{block2=" price='0'";}
+    if(date!=""){block3=` created_at='${date}'`;
+    block3=block3.replace('GMT+0700 (GMT+07:00)','')
+}  
+    var lsql=` where product_id = ${id}`;
+    var sql=fsql+block1+","+block2+","+block3+lsql;
     db.query(sql)
         .then(function(data)
         {
@@ -53,6 +64,7 @@ app.post('/product/update', function(req, res)
         {
             console.log('ERROR' + error);
         })
+    }
 });
 app.post('/product/insert',function(req,res){
     var id=req.body.id;
@@ -101,6 +113,20 @@ app.get('/buyer', function(req, res) {
         {
             console.log('ERROR' + error);
         })
+});
+app.post('/search',function(req,res){
+var info=req.body.Search_input;
+var sql=`select * from products where upper(title) like upper('%${info}%')`;
+db.any(sql)
+        .then(function (data) 
+        {
+            res.render('pages/search', { search: data ,info});
+        })
+        .catch(function (data) 
+        {
+            console.log('ERROR' + error);
+        })
+console.log(sql);
 });
 app.get('/sold', function(req, res) {
     var sql ='select products.product_id,products.title,sum(purchase_items.quantity) as quantity,sum(purchase_items.price) as price from products inner join purchase_items on purchase_items.product_id=products.product_id group by products.product_id;select sum(quantity) as squantity,sum(price) as sprice from purchase_items';

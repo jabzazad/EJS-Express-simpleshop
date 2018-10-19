@@ -1,0 +1,30 @@
+<% include ../partials/head %>
+<div class="container">
+    <div class="row">
+   
+    <h1 class="mx-auto">Search:<%= info %></h1>
+    &nbsp;
+    <% search.forEach(function(search) { %>
+    <div class="col-sm-12 col-6" id="box">
+    <a href="/product/<%= search.product_id %>">
+    <div>
+    ID:<%= search.product_id %>
+    </div>
+    <div>
+    Name: <%= search.title %>
+    </div>
+    <div>
+    Price:$<%= search.price %>
+    </div>
+    </a>
+    </div>
+   &nbsp;
+    <% }); %>
+    </div>
+</div>
+<style>
+#box{
+    border:solid 1px;
+}
+</style>
+<% include ../partials/footer %>
